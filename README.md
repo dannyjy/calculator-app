@@ -1,74 +1,123 @@
-# React + TypeScript + Vite
+# Calculator App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern calculator built with React, TypeScript, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+It supports common arithmetic operations with a reducer-based state model and a clean, responsive button layout.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Basic arithmetic: addition (`+`), subtraction (`-`), multiplication (`×`), and division (`÷`)
+- Decimal number input (`.`) with duplicate decimal prevention
+- Sign toggle (`+/-`) for the current input
+- Percentage conversion (`%`) for the current input
+- Delete button to remove one character at a time
+- All clear (`AC`) to reset the calculator state
+- Chained operation behavior (evaluate current expression and continue)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- TypeScript
+- Vite 8
+- Tailwind CSS 4
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+  App.tsx
+  main.tsx
+  index.css
+  components/
+    layout/
+      main.tsx          # Calculator layout and button grid
+    ui/
+      CalculatorButton.tsx
+      OperationButton.tsx
+  utils/
+    reducer.ts          # Calculator state transitions
+    evaluate.ts         # Operation evaluation logic
+  types/
+    types.tsx           # Shared action/state types
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## How It Works
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The calculator uses `useReducer` for predictable state updates:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `currentOperand`: currently typed value
+- `prevOperand`: stored previous value for binary operations
+- `operation`: selected operation (`+`, `-`, `×`, `÷`)
+
+Actions handled by the reducer include:
+
+- `Add Digit`
+- `Operation`
+- `Evaluate`
+- `Delete Digit`
+- `Percentage`
+- `PositiveToggle`
+- `Clear`
+
+The `evaluate` utility converts both operands to numbers and returns the computed result as a string.
+
+## Prerequisites
+
+- Node.js 18+ (recommended: latest LTS)
+- npm (comes with Node.js)
+
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/dannyjy/calculator-app.git
+cd calculator-app
 ```
-"# calculator-app" 
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Open the local URL shown in terminal (usually `http://localhost:5173`).
+
+## Available Scripts
+
+- `npm run dev`: start Vite development server
+- `npm run build`: type-check and create production build
+- `npm run preview`: preview the production build locally
+- `npm run lint`: run ESLint
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+Build output is generated in the `dist/` directory.
+
+To preview the production build:
+
+```bash
+npm run preview
+```
+
+## Notes and Limitations
+
+- Division by zero follows JavaScript behavior (for example, `Infinity`).
+- Results are stringified from numeric operations and may include floating-point precision behavior.
+
+## Future Improvements
+
+- Add keyboard support
+- Add expression history
+- Add unit tests for reducer and evaluate logic
+- Improve accessibility labels and focus states
