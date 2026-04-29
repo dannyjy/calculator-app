@@ -8,9 +8,9 @@ const Main = () => {
     const [state, dispatch] = useReducer(reducer, { currentOperand: "", prevOperand: "", operation: ""});
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <main className="rounded-2xl p-2 space-y-3 text-gray-300 font-bold text-2xl">
-                <div className="w-96 h-40 space-y-6 bg-[#121414] rounded-2xl overflow-hidden p-4 flex flex-col justify-center items-end">
+        <div className="flex justify-center items-center min-h-screen p-4">
+            <main className="rounded-2xl p-2 space-y-3 text-gray-300 font-bold text-2xl w-full max-w-sm">
+                <div className="w-full h-40 space-y-6 bg-[#121414] rounded-2xl overflow-hidden p-4 flex flex-col justify-center items-end">
                     <h2 className="text-xl">{state.prevOperand} <span className="text-xl text-green-600">{state.operation}</span></h2>
                     <h3 className="text-2xl">{state.currentOperand}</h3>
                 </div>
